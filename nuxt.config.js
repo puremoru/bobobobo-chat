@@ -43,7 +43,10 @@ export default {
     '@nuxtjs/axios',
   ],
   axios: {
-
+    proxy: true
+  },
+  proxy: {
+    "/test2": "http://db.denchu.cloud:5111/uiuxchat3287bivsgfbivf"
   },
   /*
   ** Build configuration

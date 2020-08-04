@@ -19,30 +19,32 @@
         </div>
         <div class="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
           <div class="w-full text-right text-gray-700 font-semibold relative pt-3 md:pt-0">
-            <div class="text-2xl text-white leading-tight">hoge</div>
+            <div class="text-2xl text-white leading-tight">{{user.name}}</div>
             <div class="text-normal text-gray-300">
-              <span class="border-gray-500 pb-1">status</span>
+              <span class="border-gray-500 pb-1">{{user.status}}</span>
             </div>
             <div
               class="text-sm text-gray-300 md:absolute pt-3 md:pt-0 bottom-0 right-0"
-            >Tickets: x 2</div>
+            >Tickets: x {{user.tickets}}</div>
           </div>
         </div>
       </div>
       <div class="py-1">
-        <span class="px-1 text-sm text-gray-600">Name</span>
+        <span class="px-1 text-sm text-gray-600">name</span>
         <input
           placeholder
-          type="email"
+          type="text"
           class="text-md block px-3 py-2 rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none"
+          v-model="name"
         />
       </div>
       <div class="py-1">
         <span class="px-1 text-sm text-gray-600">Status</span>
         <input
           placeholder
-          type="email"
+          type="text"
           class="text-md block px-3 py-2 rounded-lg w-full bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none"
+          v-model="status"
         />
       </div>
       <label class="flex justify-start items-start py-3">
@@ -60,6 +62,7 @@
         <div class="select-none text-gray-600">Busy!!</div>
       </label>
       <button
+        v-on:click="click"
         class="block uppercase mx-auto shadow bg-indigo-800 hover:bg-indigo-700 focus:shadow-outline focus:outline-none text-white text-xs py-3 px-10 rounded"
       >更新</button>
       <!-- End Profile Card -->
@@ -69,18 +72,47 @@
 
 <script>
 export default {
-  //   async asyncData({ app }) {
-  //     // 取得先のURL
-  //     const url =
-  //       "http://db.denchu.cloud:5111/uiuxchat3287bivsgfbivf/test2/users";
-  //     // リクエスト（Get）
-  //     const response = await app.$axios.$get(url);
-  //     // 配列で返ってくるのでJSONにして返却
-  //     console.log(response);
-  //     return {
-  //       response,
-  //     };
-  //   },
+  data() {
+    return {
+      name: "",
+      status: "",
+      tickets: "",
+    };
+  },
+
+  methods: {
+    async click() {
+      let update_user = {
+        name: this.name,
+        status: this.status,
+      };
+      const url = "/test2/users/1";
+      const key = "?key=gfg43827hnfdsfai";
+      const req = await this.$axios.$put(url + key, {
+        name: this.name,
+        status: this.status,
+      });
+
+      location.reload();
+    },
+  },
+
+  async asyncData({ app }) {
+    // 取得先のURL
+    const url =
+      "http://db.denchu.cloud:5111/uiuxchat3287bivsgfbivf/test2/users/1";
+    const key = "?key=シークレットキー";
+    // リクエスト（Get）
+    const response = await app.$axios.$get(url);
+
+    // this.name = response.result.name;
+    // this.status = response.result.status;
+
+    //配列で返ってくるのでJSONにして返却;
+    return {
+      user: response.result,
+    };
+  },
 };
 </script>
 
