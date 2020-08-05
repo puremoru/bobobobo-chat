@@ -71,6 +71,8 @@
 </template>
 
 <script>
+import Cookies from "universal-cookie";
+
 export default {
   data() {
     return {
@@ -87,8 +89,12 @@ export default {
         status: this.status,
       };
       const url = "/test2/users/1";
-      const key = "?key=gfg43827hnfdsfai";
-      const req = await this.$axios.$put(url + key, {
+      const key = "gfg43827hnfdsfai";
+
+      const cookies = new Cookies();
+      cookies.set("key", key);
+
+      const req = await this.$axios.$put(url, {
         name: this.name,
         status: this.status,
       });
@@ -99,9 +105,11 @@ export default {
 
   async asyncData({ app }) {
     // 取得先のURL
-    const url =
-      "http://db.denchu.cloud:5111/uiuxchat3287bivsgfbivf/test2/users/1";
-    const key = "?key=シークレットキー";
+    const url = "/test2/users/1";
+    const key = "gfg43827hnfdsfai";
+
+    const cookies = new Cookies();
+    cookies.set("key", key);
     // リクエスト（Get）
     const response = await app.$axios.$get(url);
 
