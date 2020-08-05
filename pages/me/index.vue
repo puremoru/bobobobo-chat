@@ -89,7 +89,7 @@ export default {
         status: this.status,
       };
       const url = "/test2/users/1";
-      const key = "gfg43827hnfdsfai";
+      const key = "シークレットキー";
 
       const cookies = new Cookies();
       cookies.set("key", key);
@@ -106,7 +106,7 @@ export default {
   async asyncData({ app }) {
     // 取得先のURL
     const url = "/test2/users/1";
-    const key = "gfg43827hnfdsfai";
+    const key = "シークレットキー";
 
     const cookies = new Cookies();
     cookies.set("key", key);
