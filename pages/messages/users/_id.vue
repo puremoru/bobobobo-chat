@@ -51,7 +51,7 @@
           <!-- Chat messages -->
           <div class="px-6 py-4 flex-1 overflow-y-scroll">
               <!-- A message -->
-              <div class="flex items-start mb-4 text-sm">
+              <div class="flex items-start py-3 mb-4 text-sm">
                 <img src="https://randomuser.me/api/portraits/men/24.jpg" class="w-10 h-10 rounded-full mr-3" />
                 <div class="flex-1 overflow-hidden">
                     <div>
@@ -61,7 +61,7 @@
                     <p class="text-black leading-normal">Hey</p>
                 </div>
               </div>
-              <div class="flex mb-4 text-sm float-right">
+              <div class="flex mb-4 py-3 text-sm">
                 <img src="https://randomuser.me/api/portraits/men/24.jpg" class="w-10 h-10 rounded-full mr-3" />
                 <div class="flex-1 overflow-hidden">
                     <div>
@@ -78,6 +78,9 @@
                       <svg class="fill-current h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
                     </span>
                   <input type="text" class="w-full px-4" placeholder="メッセージを入力してください" />
+                  <span class="p-2 bg-teal-100">
+              		  <svg class="h-6 w-6 text-teal-600 feather feather-send"  width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                  </span>
               </div>
           </div>
       </div>
