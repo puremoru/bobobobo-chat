@@ -40,8 +40,15 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    "@nuxtjs/axios",
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
   ],
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    "/test2": "http://db.denchu.cloud:5111/uiuxchat3287bivsgfbivf"
+  },
   /*
   ** Build configuration
   */
@@ -49,7 +56,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     }
   }
 }

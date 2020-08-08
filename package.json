@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
-    "nuxt": "^2.0.0"
+    "@nuxtjs/dotenv": "^1.4.1",
+    "nuxt": "^2.0.0",
+    "universal-cookie": "^4.0.3"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0"
