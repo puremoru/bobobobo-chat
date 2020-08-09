@@ -2,7 +2,7 @@
   <div>
     <nav class="flex items-center justify-between flex-wrap p-6 bg-white">
     <div class="flex items-center flex-no-shrink mr-6" style="color: #aee0e0;">
-      <nuxt-link to="/messages/users/1"><span class="font-semibold text-xl tracking-tight">SmartChat</span></nuxt-link>
+      <nuxt-link to="/messages/users/1"><span class="font-bold text-xl tracking-tight">SmartChat</span></nuxt-link>
     </div>
     <div class="block lg:hidden">
       <button class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white">
