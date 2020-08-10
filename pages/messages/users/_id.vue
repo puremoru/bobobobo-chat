@@ -82,23 +82,23 @@
 import Cookies from "universal-cookie";
 export default {
     async asyncData({ $axios, params, store }) {
-        const [me, users, toUser] = await Promise.all([
-          $axios.$get("/test2/users/1"),
-          $axios.$get("/test2/users"),
-          $axios.$get(`/test2/users/${params.id}`)
-        ]);
+      const [me, users, toUser] = await Promise.all([
+        $axios.$get("/test2/users/1"),
+        $axios.$get("/test2/users"),
+        $axios.$get(`/test2/users/${params.id}`)
+      ]);
 
-        let messages = []
-        if (params.id != me.result.id) {
-          const res = await $axios.$get("/test2/messages")
-          messages = res.result.filter(m => (m.from == me.result.name && m.to == toUser.result.name) || (m.from == toUser.result.name && m.to == me.result.name));
-        }
-        store.commit('messages/setChatContents', {
-          me: me.result,
-          users: users.result.slice(1, 5),
-          toUser: toUser.result,
-          messages: messages,
-        })
+      let messages = []
+      if (params.id != me.result.id) {
+        const res = await $axios.$get("/test2/messages")
+        messages = res.result.filter(m => (m.from == me.result.name && m.to == toUser.result.name) || (m.from == toUser.result.name && m.to == me.result.name));
+      }
+      store.commit('messages/setChatContents', {
+        me: me.result,
+        users: users.result.slice(1, 5),
+        toUser: toUser.result,
+        messages: messages,
+      })
     },
     data() {
       return {
@@ -112,17 +112,23 @@ export default {
     methods: {
       async send() {
         if (this.input) {
-          const key = process.env.KEY;
+          // const key = process.env.KEY;
+          const key = "gfg43827hnfdsfai";
           const cookies = new Cookies();
           cookies.set("key", key);
 
-          this.$axios.$post("/test2/messages", {
+          const send = await this.$axios.$post("/test2/messages", {
             from: this.me.name,
             to: this.toUser.name,
             content: this.input,
-          }).then(async res => {
-            const updatedMessages = await this.$axios.$get("/test2/messages")
-            this.messages = updatedMessages.result.filter(m => (m.from == me.result.name && m.to == toUser.result.name) || (m.from == toUser.result.name && m.to == me.result.name));
+          })
+          .then(async res => {
+            const response = await this.$axios.$get("/test2/messages")
+            const updatedMessages = response.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
+            await this.$store.commit('messages/setMessages', {
+              messages: updatedMessages
+            })
+            this.messages = this.$store.state.messages.messages
           }).catch(e => {
             console.error(e)
           }).finally(() => {
