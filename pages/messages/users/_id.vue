@@ -146,36 +146,42 @@ export default {
               alert('チケットがないので送ることはできません')
               this.$router.push("/messages/users/1")
             } else {
-              const send = await this.$axios.$post("/test2/messages", {
+
+              const updatedTickets = await this.$axios.$put(`/test2/users/${this.me.id}`, {
+                tickets: String(Number(this.me.tickets) - 1)
+              });
+
+              const sendMessages = await this.$axios.$post("/test2/messages", {
               from: this.me.name,
               to: this.toUser.name,
               content: this.input,
             })
             .then(async res => {
-              const response = await this.$axios.$get("/test2/messages")
-              const updatedMessages = response.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
+              const getMessages = await this.$axios.$get("/test2/messages")
+              const getUser = await this.$axios.$get("/test2/users/1")
+              const updatedMessages = getMessages.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
               await this.$store.commit('messages/setMessages', {
-                messages: updatedMessages
-              })
-              await this.$axios.$put(`/test2/users/${this.me.id}`, {
-                tickets: String(Number(this.me.tickets) - 1)
+                messages: updatedMessages,
+                me: getUser.result,
               })
               this.messages = this.$store.state.messages.messages
+              this.me = this.$store.state.messages.me
               }).catch(e => {
                 console.error(e)
               }).finally(() => {
                 this.input = ""
               })
+
             }
           } else {
-            const send = await this.$axios.$post("/test2/messages", {
+            const sendMessages = await this.$axios.$post("/test2/messages", {
             from: this.me.name,
             to: this.toUser.name,
             content: this.input,
             })
             .then(async res => {
-              const response = await this.$axios.$get("/test2/messages")
-              const updatedMessages = response.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
+              const getMessages = await this.$axios.$get("/test2/messages")
+              const updatedMessages = getMessages.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
               await this.$store.commit('messages/setMessages', {
                 messages: updatedMessages
               })

@@ -110,7 +110,6 @@ export default {
       const req = await this.$axios.$put(url, {
         name: this.name,
         status: this.status,
-        tickets: "1000"
       });
 
       this.$router.push('/messages/users/1')
