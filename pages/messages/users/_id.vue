@@ -147,7 +147,7 @@ export default {
               this.$router.push("/messages/users/1")
             } else {
               const send = await this.$axios.$post("/test2/messages", {
-              from: 'someone',
+              from: this.me.name,
               to: this.toUser.name,
               content: this.input,
             })
@@ -158,7 +158,7 @@ export default {
                 messages: updatedMessages
               })
               await this.$axios.$put(`/test2/users/${this.me.id}`, {
-                tickets: String(parse(this.me.tickets, 10) - 1)
+                tickets: String(Number(this.me.tickets) - 1)
               })
               this.messages = this.$store.state.messages.messages
               }).catch(e => {
