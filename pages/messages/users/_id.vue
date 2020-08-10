@@ -44,6 +44,21 @@
                 </div>
               </nuxt-link>
           </div>
+
+          <div class="px-4 mb-2 py-4 flex justify-between" :class="[ $route.params.id == 'someone' ? 'emphasize-bg-color' : 'base-bg-color' ]">
+              <nuxt-link to="/messages/users/35">
+                <div class="flex-auto">
+                  <div class="inline-block">
+                    <img class="w-12 rounded-full" src="https://i.pinimg.com/originals/51/83/ef/5183ef65b82a66cf573f324e59cf028b.png"/>
+                  </div>
+
+                  <div class="text-xl leading-tight truncate inline-block text-black ml-3">
+                    someone
+                    <div class="text-sm font-bold" :class="[ me.tickets == '0' ? 'text-red-400' : 'text-teal-600' ]">{{ me.tickets }}</div>
+                  </div>
+                </div>
+              </nuxt-link>
+          </div>
         </div>
       </div>
       <!-- Chat content -->
@@ -52,7 +67,8 @@
           <div class="px-6 py-4 flex-1 overflow-y-scroll">
               <!-- A message -->
               <div class="flex items-start py-3 mb-4 text-sm" v-for="message in messages" :key="message.id">
-                <img src="https://randomuser.me/api/portraits/men/24.jpg" class="w-10 h-10 rounded-full mr-3" />
+                <img src="https://i.pinimg.com/originals/51/83/ef/5183ef65b82a66cf573f324e59cf028b.png" class="w-10 h-10 rounded-full mr-3" v-if="message.from == 'someone'"/>
+                <img src="https://randomuser.me/api/portraits/men/24.jpg" class="w-10 h-10 rounded-full mr-3" v-else/>
                 <div class="flex-1 overflow-hidden">
                     <div>
                         <span class="font-bold">{{ message.from }}</span>
@@ -109,6 +125,14 @@ export default {
         messages: this.$store.state.messages.messages,
       }
     },
+    mounted() {
+      if (this.toUser.status == 'busy') {
+        alert(`${this.toUser.name}さんは忙しいみたいなので, 不急な連絡は控えましょう。`)
+      }
+      if (this.toUser.name == 'someone' && this.me.tickets == '0') {
+        alert('チケットがないので送ることはできません')
+      }
+    },
     methods: {
       async send() {
         if (this.input) {
@@ -117,23 +141,51 @@ export default {
           const cookies = new Cookies();
           cookies.set("key", key);
 
-          const send = await this.$axios.$post("/test2/messages", {
+          if (this.toUser.name == 'someone') {
+            if (this.me.tickets == "0") {
+              alert('チケットがないので送ることはできません')
+              this.$router.push("/messages/users/1")
+            } else {
+              const send = await this.$axios.$post("/test2/messages", {
+              from: this.me.name,
+              to: this.toUser.name,
+              content: this.input,
+            })
+            .then(async res => {
+              const response = await this.$axios.$get("/test2/messages")
+              const updatedMessages = response.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
+              await this.$store.commit('messages/setMessages', {
+                messages: updatedMessages
+              })
+              await this.$axios.$put(`/test2/users/${this.me.id}`, {
+                tickets: String(Number(this.me.tickets) - 1)
+              })
+              this.messages = this.$store.state.messages.messages
+              }).catch(e => {
+                console.error(e)
+              }).finally(() => {
+                this.input = ""
+              })
+            }
+          } else {
+            const send = await this.$axios.$post("/test2/messages", {
             from: this.me.name,
             to: this.toUser.name,
             content: this.input,
-          })
-          .then(async res => {
-            const response = await this.$axios.$get("/test2/messages")
-            const updatedMessages = response.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
-            await this.$store.commit('messages/setMessages', {
-              messages: updatedMessages
             })
-            this.messages = this.$store.state.messages.messages
-          }).catch(e => {
-            console.error(e)
-          }).finally(() => {
-            this.input = ""
-          })
+            .then(async res => {
+              const response = await this.$axios.$get("/test2/messages")
+              const updatedMessages = response.result.filter(m => (m.from == this.me.name && m.to == this.toUser.name) || (m.from == this.toUser.name && m.to == this.me.name));
+              await this.$store.commit('messages/setMessages', {
+                messages: updatedMessages
+              })
+              this.messages = this.$store.state.messages.messages
+            }).catch(e => {
+              console.error(e)
+            }).finally(() => {
+              this.input = ""
+            })
+          }
         }
       }
     }
