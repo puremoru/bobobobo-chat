@@ -54,7 +54,10 @@
 
                   <div class="text-xl leading-tight truncate inline-block text-black ml-3">
                     someone
-                    <div class="text-sm font-bold" :class="[ me.tickets == '0' ? 'text-red-400' : 'text-teal-600' ]">{{ me.tickets }}</div>
+                    <div class="text-sm font-bold overflow-hidden" :class="[ me.tickets == '0' ? 'text-red-400' : 'text-teal-600' ]">
+                      <div class="float-left"><svg class="h-5 w-5 text-teal-600"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="15" y1="5" x2="15" y2="7" />  <line x1="15" y1="11" x2="15" y2="13" />  <line x1="15" y1="17" x2="15" y2="19" />  <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-3a2 2 0 0 0 0 -4v-3a2 2 0 0 1 2 -2" /></svg></div>
+                      <div class="float-left">×{{ me.tickets }}</div>
+                    </div>
                   </div>
                 </div>
               </nuxt-link>
@@ -137,7 +140,7 @@ export default {
       async send() {
         if (this.input) {
           const key = process.env.KEY;
-          const cookies = new Cookies();
+          const cookies = new Cookies()
           cookies.set("key", key);
 
           if (this.toUser.name == 'someone') {
