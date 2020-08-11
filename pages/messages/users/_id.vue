@@ -140,8 +140,9 @@ export default {
       async send() {
         if (this.input) {
           const key = process.env.KEY;
+          console.log(key)
           const cookies = new Cookies()
-          cookies.set("key", key);
+          cookies.set("key", key, {path: "/"});
 
           if (this.toUser.name == 'someone') {
             if (this.me.tickets == "0") {
