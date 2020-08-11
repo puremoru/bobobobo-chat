@@ -15,6 +15,10 @@ export const mutations = {
 
   setMessages(state, input) {
     state.messages = input.messages;
+  },
+
+  setMe(state, me) {
+    state.me = me;
   }
 };
 
