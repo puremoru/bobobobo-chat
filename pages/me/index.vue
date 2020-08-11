@@ -101,8 +101,7 @@ export default {
         status: this.status,
       };
       const url = "/test2/users/1";
-      // const key = process.env.KEY;
-      const key = "gfg43827hnfdsfai";
+      const key = process.env.KEY;
 
       const cookies = new Cookies();
       cookies.set("key", key);

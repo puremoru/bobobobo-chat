@@ -136,8 +136,7 @@ export default {
     methods: {
       async send() {
         if (this.input) {
-          // const key = process.env.KEY;
-          const key = "gfg43827hnfdsfai";
+          const key = process.env.KEY;
           const cookies = new Cookies();
           cookies.set("key", key);
 
