@@ -88,9 +88,9 @@ import Cookies from "universal-cookie";
 export default {
   data() {
     return {
-      name: "",
-      status: "",
-      tickets: "",
+      name: this.$store.state.messages.me.name,
+      status: this.$store.state.messages.me.status,
+      tickets: this.$store.state.messages.me.tickets,
     };
   },
 
@@ -117,12 +117,14 @@ export default {
     },
   },
 
-  async asyncData({ app }) {
+  async asyncData({ app, store }) {
     // 取得先のURL
     const url = "/test2/users/1";
 
     // リクエスト（Get）
     const response = await app.$axios.$get(url);
+
+    store.commit('messages/setMe', response.result)
 
     //配列で返ってくるのでJSONにして返却;
     return {

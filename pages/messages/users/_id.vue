@@ -45,7 +45,7 @@
               </nuxt-link>
           </div>
 
-          <div class="px-4 mb-2 py-4 flex justify-between" :class="[ $route.params.id == 'someone' ? 'emphasize-bg-color' : 'base-bg-color' ]">
+          <div class="px-4 mb-2 py-4 flex justify-between" :class="[ $route.params.id == 35 ? 'emphasize-bg-color' : 'base-bg-color' ]">
               <nuxt-link to="/messages/users/35">
                 <div class="flex-auto">
                   <div class="inline-block">
@@ -160,7 +160,10 @@ export default {
               await this.$axios.$put(`/test2/users/${this.me.id}`, {
                 tickets: String(Number(this.me.tickets) - 1)
               })
+              const me = await this.$axios.$get("test2/users/1")
+              await this.$store.commit('messages/setMe', me.result)
               this.messages = this.$store.state.messages.messages
+              this.me = this.$store.state.messages.me
               }).catch(e => {
                 console.error(e)
               }).finally(() => {
